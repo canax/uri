@@ -1,12 +1,12 @@
 <?php
 
-namespace Anax\UriBuilder;
+namespace Anax\Uri;
 
 /**
  * Class to help the buildup of an uri.
  * Wraps a string and provides methods to check and manipulate uri.
  */
-class UriBuilder
+class Uri
 {
     private $uri;
 
@@ -59,14 +59,14 @@ class UriBuilder
      * Prepend this uri with another uri with a slash inbetween.
      *
      * Example:
-     *  $relativeUri = new UriBuilder("about"); // $relativeUrl->uri() == "about"
-     *  $baseUrl     = new UriBuilder("http://dbwebb.se"); // $baseUrl->uri() == "http://dbwebb.se"
+     *  $relativeUri = new Uri("about"); // $relativeUrl->uri() == "about"
+     *  $baseUrl     = new Uri("http://dbwebb.se"); // $baseUrl->uri() == "http://dbwebb.se"
      *  $urlString   = $relativeUri->prepend($baseUrl)->uri(); // $urlString == "http://dbwebb.se/about"
      *
-     * @param  UriBuilder $uri  Uri to prepend this uri
-     * @return UriBuilder self  Reference to this UriBuilder for chaining.
+     * @param  Uri $uri  Uri to prepend this uri
+     * @return Uri self  Reference to this Uri for chaining.
      */
-    public function prepend(UriBuilder $uri)
+    public function prepend(Uri $uri)
     {
         $this->uri = $uri->uri() . "/" . ltrim($this->uri(), "/");
         return $this;
@@ -76,14 +76,14 @@ class UriBuilder
      * Appends supplied $uri to this uri with a slash inbetween.
      *
      * Example:
-     *  $relativeUri = new UriBuilder("about"); // $relativeUrl->uri() == "about"
-     *  $baseUrl     = new UriBuilder("http://dbwebb.se"); // $baseUrl->uri() == "http://dbwebb.se"
+     *  $relativeUri = new Uri("about"); // $relativeUrl->uri() == "about"
+     *  $baseUrl     = new Uri("http://dbwebb.se"); // $baseUrl->uri() == "http://dbwebb.se"
      *  $urlString   = $baseUri->append($relativeUri)->uri(); // $urlString == "http://dbwebb.se/about"
      *
-     * @param  UriBuilder $uri  Uri to append this uri
-     * @return UriBuilder self  Reference to this UriBuilder for chaining.
+     * @param  Uri $uri  Uri to append this uri
+     * @return Uri self  Reference to this Uri for chaining.
      */
-    public function append(UriBuilder $uri)
+    public function append(Uri $uri)
     {
         $this->uri = $this->uri() . "/" . ltrim($uri->uri(), "/");
         return $this;
@@ -93,12 +93,12 @@ class UriBuilder
      * Remove the basename part of uri if it is same as argument.
      *
      * Example:
-     *  $theUri = new UriBuilder("http://dbwebb.se/about/this.html");
+     *  $theUri = new Uri("http://dbwebb.se/about/this.html");
      *  theUri->removeBasename("index.html"); // theUri->uri() == "http://dbwebb.se/about/this.html"
      *  theUri->removeBasename("this.html"); // theUri->uri() == "http://dbwebb.se/about"
      *
      * @param  string $basename     The basename to remove.
-     * @return UriBuilder self      Reference to this UriBuilder for chaining.
+     * @return Uri self      Reference to this Uri for chaining.
      */
     public function removeBasename($basename)
     {

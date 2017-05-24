@@ -1,7 +1,7 @@
-Anax UriBuilder
+Anax Uri
 ==================================
 
-Anax UriBuilder module.
+Anax Uri module.
 
 
 

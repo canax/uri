@@ -1,20 +1,20 @@
 <?php
 
-namespace Anax\UriBuilder;
+namespace Anax\Uri;
 
 /**
  * A helper to create urls.
  *
  */
-class UriBuilderTest extends \PHPUnit_Framework_TestCase
+class UriTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Basic test to create class.
      */
     public function testCreateUriBuilder()
     {
-        $uri = new UriBuilder("");
-        $this->assertInstanceOf(UriBuilder::class, $uri);
+        $uri = new Uri("");
+        $this->assertInstanceOf(Uri::class, $uri);
     }
 
     /**
@@ -22,8 +22,8 @@ class UriBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testUri()
     {
-        $full = new UriBuilder("http://dbwebb.se/about");
-        $fullTrailing = new UriBuilder("http://dbwebb.se/about/");
+        $full = new Uri("http://dbwebb.se/about");
+        $fullTrailing = new Uri("http://dbwebb.se/about/");
 
         $this->assertEquals("http://dbwebb.se/about", $full->uri());
         $this->assertEquals("http://dbwebb.se/about", $fullTrailing->uri());
@@ -56,7 +56,7 @@ class UriBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsEmpty($testThing, $expected)
     {
-        $uri = new UriBuilder($testThing);
+        $uri = new Uri($testThing);
         $this->assertEquals($expected, $uri->isEmpty());
     }
 
@@ -65,9 +65,9 @@ class UriBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testStartsWith()
     {
-        $whatever       = new UriBuilder("whatever");
-        $http           = new UriBuilder("http://dbwebb.se");
-        $doubleSlash    = new UriBuilder("//dbwebb.se");
+        $whatever       = new Uri("whatever");
+        $http           = new Uri("http://dbwebb.se");
+        $doubleSlash    = new Uri("//dbwebb.se");
 
         $this->assertEquals(true, $whatever->startsWith("what"));
         $this->assertEquals(false, $whatever->startsWith("ever"));
@@ -84,8 +84,8 @@ class UriBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testStartsWithAny()
     {
-        $whatever       = new UriBuilder("whatever");
-        $http           = new UriBuilder("http://dbwebb.se");
+        $whatever       = new Uri("whatever");
+        $http           = new Uri("http://dbwebb.se");
 
         $this->assertEquals(true, $whatever->startsWithAny(["notThis", "what", "neitherThis"]));
         $this->assertEquals(true, $whatever->startsWithAny(["w", "what", "whatev"]));
@@ -143,8 +143,8 @@ class UriBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepend($base, $path, $expected)
     {
-        $baseUrl = new UriBuilder($base);
-        $uri = new UriBuilder($path);
+        $baseUrl = new Uri($base);
+        $uri = new Uri($path);
         $uri->prepend($baseUrl);
 
         $this->assertEquals($expected, $uri->uri());
@@ -157,8 +157,8 @@ class UriBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testAppend($base, $path, $expected)
     {
-        $pathUri = new UriBuilder($path);
-        $uri = new UriBuilder($base);
+        $pathUri = new Uri($path);
+        $uri = new Uri($base);
         $uri->append($pathUri);
 
         $this->assertEquals($expected, $uri->uri());
@@ -220,7 +220,7 @@ class UriBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoveBasename($fullUrl, $basename, $expected)
     {
-        $url = new UriBuilder($fullUrl);
+        $url = new Uri($fullUrl);
         $url->removeBasename($basename);
         $this->assertEquals($expected, $url->uri());
     }
@@ -230,9 +230,9 @@ class UriBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testReturnThis()
     {
-        $uri = new UriBuilder("");
-        $this->assertInstanceOf(UriBuilder::class, $uri->prepend($uri));
-        $this->assertInstanceOf(UriBuilder::class, $uri->append($uri));
-        $this->assertInstanceOf(UriBuilder::class, $uri->removeBasename(""));
+        $uri = new Uri("");
+        $this->assertInstanceOf(Uri::class, $uri->prepend($uri));
+        $this->assertInstanceOf(Uri::class, $uri->append($uri));
+        $this->assertInstanceOf(Uri::class, $uri->removeBasename(""));
     }
 }
