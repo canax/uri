@@ -10,6 +10,8 @@ class Uri
 {
     private $uri;
 
+
+
     /**
      * Uri constructor.
      *
@@ -19,6 +21,8 @@ class Uri
     {
         $this->uri = $uri;
     }
+
+
 
     /**
      * Check if uri is empty by php standards (see http://php.net/manual/en/function.empty.php).
@@ -30,30 +34,37 @@ class Uri
         return empty($this->uri);
     }
 
+
     /**
-     * Check if uri starts with $string.
+     * Check if uri starts with string.
+     *
+     * Private helper class helper.
      *
      * @param  string $string   String to check for in start of uri.
      * @return bool             True if uri strarts with $string.
      */
-    public function startsWith($string)
+    private function uriBeginsWith($string)
     {
         $len = strlen($string);
         return substr($this->uri, 0, $len) == $string;
     }
 
+
+
     /**
-     * Check if uri starts with any string provided in array.
+     * Check if uri starts with one or more strings.
      *
-     * @param  array $strArr    Array of strings to test against uri.
-     * @return bool             True if uri starts with any string in $strArray.
+     * @param  string ...$string   Strings to check for in start of uri.
+     * @return bool                True if uri strarts with $string.
      */
-    public function startsWithAny($strArr)
+    public function startsWith(...$strings)
     {
-        return array_reduce($strArr, function ($collectedCondition, $string) {
-            return $this->startsWith($string) || $collectedCondition;
+        return array_reduce($strings, function ($collectedCondition, $string) {
+            return $this->uriBeginsWith($string) || $collectedCondition;
         }, false);
     }
+
+
 
     /**
      * Prepend this uri with another uri with a slash inbetween.
@@ -72,6 +83,8 @@ class Uri
         return $this;
     }
 
+
+
     /**
      * Appends supplied $uri to this uri with a slash inbetween.
      *
@@ -88,6 +101,8 @@ class Uri
         $this->uri = $this->uri() . "/" . ltrim($uri->uri(), "/");
         return $this;
     }
+
+
 
     /**
      * Remove the basename part of uri if it is same as argument.
@@ -107,6 +122,8 @@ class Uri
             : $this->uri;
         return $this;
     }
+
+
 
     /**
      * Get the boxed uri as string without any trailing slash.

@@ -17,6 +17,8 @@ class UriTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Uri::class, $uri);
     }
 
+
+
     /**
      * Check that we can get the uri and that it does not end with a slash
      */
@@ -49,6 +51,8 @@ class UriTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+
+
     /**
      * Check that empty is empty
      *
@@ -60,6 +64,8 @@ class UriTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $uri->isEmpty());
     }
 
+
+
     /**
      * Check startsWith
      */
@@ -69,6 +75,8 @@ class UriTest extends \PHPUnit_Framework_TestCase
         $http           = new Uri("http://dbwebb.se");
         $doubleSlash    = new Uri("//dbwebb.se");
 
+        $this->assertEquals(false, $whatever->startsWith());
+
         $this->assertEquals(true, $whatever->startsWith("what"));
         $this->assertEquals(false, $whatever->startsWith("ever"));
 
@@ -77,23 +85,16 @@ class UriTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(true, $doubleSlash->startsWith("//"));
         $this->assertEquals(false, $doubleSlash->startsWith("dbwebb"));
+
+        $this->assertEquals(true, $whatever->startsWith("notThis", "what", "neitherThis"));
+        $this->assertEquals(true, $whatever->startsWith("w", "what", "whatev"));
+        $this->assertEquals(false, $whatever->startsWith("notThis", "hat", "neitherThis"));
+
+        $this->assertEquals(true, $http->startsWith("dbwebb", "http://"));
+        $this->assertEquals(false, $http->startsWith("dbwebb", ".se"));
     }
 
-    /**
-     * Check startsWithAny
-     */
-    public function testStartsWithAny()
-    {
-        $whatever       = new Uri("whatever");
-        $http           = new Uri("http://dbwebb.se");
 
-        $this->assertEquals(true, $whatever->startsWithAny(["notThis", "what", "neitherThis"]));
-        $this->assertEquals(true, $whatever->startsWithAny(["w", "what", "whatev"]));
-        $this->assertEquals(false, $whatever->startsWithAny(["notThis", "hat", "neitherThis"]));
-
-        $this->assertEquals(true, $http->startsWithAny(["dbwebb", "http://"]));
-        $this->assertEquals(false, $http->startsWithAny(["dbwebb", ".se"]));
-    }
 
     /**
      * Provider for prepend and append test
@@ -136,6 +137,8 @@ class UriTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+
+
     /**
      * Check that prepend prepends. Get uri with uri method
      *
@@ -150,6 +153,8 @@ class UriTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $uri->uri());
     }
 
+
+
     /**
      * Check that appends appends. Get uri with uri method
      *
@@ -163,6 +168,8 @@ class UriTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $uri->uri());
     }
+
+
 
     /**
      * Provider for removeBasename test
@@ -213,6 +220,8 @@ class UriTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+
+
     /**
      * Check removeBasename
      *
@@ -224,6 +233,8 @@ class UriTest extends \PHPUnit_Framework_TestCase
         $url->removeBasename($basename);
         $this->assertEquals($expected, $url->uri());
     }
+
+
 
     /**
      * Check that methods that should return this returns this
