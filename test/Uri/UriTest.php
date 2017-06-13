@@ -41,11 +41,11 @@ class UriTest extends \PHPUnit_Framework_TestCase
             ["", true],
             [0, true],
             [0.0, true],
-            ["0", true],
             [null, true],
             [false, true],
             [[], true],
             //[$notInitialized, true], // Causes notice in testsuit
+            ["0", false],
             ["whatever", false],
             ["http://thisis.not/empty", false],
         ];
