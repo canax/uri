@@ -8,7 +8,12 @@ namespace Anax\Uri;
  */
 class Uri
 {
+    /**
+     * @var string $uri         The boxed uri string.
+     */
     private $uri;
+
+
 
     /**
      * Uri constructor.
@@ -20,40 +25,53 @@ class Uri
         $this->uri = $uri;
     }
 
+
+
     /**
-     * Check if uri is empty by php standards (see http://php.net/manual/en/function.empty.php).
+     * Check if uri is empty by php standards with exception "0" string
+     * (see http://php.net/manual/en/function.empty.php).
      *
      * @return bool
      */
     public function isEmpty()
     {
-        return empty($this->uri);
+        return empty($this->uri) && $this->uri !== "0";
     }
 
+
+
     /**
-     * Check if uri starts with $string.
+     * Check if uri starts with string.
+     *
+     * Private helper class helper.
      *
      * @param  string $string   String to check for in start of uri.
+     *
      * @return bool             True if uri strarts with $string.
      */
-    public function startsWith($string)
+    private function uriBeginsWith($string)
     {
         $len = strlen($string);
         return substr($this->uri, 0, $len) == $string;
     }
 
+
+
     /**
-     * Check if uri starts with any string provided in array.
+     * Check if uri starts with one or more strings.
      *
-     * @param  array $strArr    Array of strings to test against uri.
-     * @return bool             True if uri starts with any string in $strArray.
+     * @param  string ...$string   Strings to check for in start of uri.
+     *
+     * @return bool                True if uri strarts with $string.
      */
-    public function startsWithAny($strArr)
+    public function startsWith(...$strings)
     {
-        return array_reduce($strArr, function ($collectedCondition, $string) {
-            return $this->startsWith($string) || $collectedCondition;
+        return array_reduce($strings, function ($collectedCondition, $string) {
+            return $this->uriBeginsWith($string) || $collectedCondition;
         }, false);
     }
+
+
 
     /**
      * Prepend this uri with another uri with a slash inbetween.
@@ -64,6 +82,7 @@ class Uri
      *  $urlString   = $relativeUri->prepend($baseUrl)->uri(); // $urlString == "http://dbwebb.se/about"
      *
      * @param  Uri $uri  Uri to prepend this uri
+     *
      * @return Uri self  Reference to this Uri for chaining.
      */
     public function prepend(Uri $uri)
@@ -71,6 +90,8 @@ class Uri
         $this->uri = $uri->uri() . "/" . ltrim($this->uri(), "/");
         return $this;
     }
+
+
 
     /**
      * Appends supplied $uri to this uri with a slash inbetween.
@@ -81,6 +102,7 @@ class Uri
      *  $urlString   = $baseUri->append($relativeUri)->uri(); // $urlString == "http://dbwebb.se/about"
      *
      * @param  Uri $uri  Uri to append this uri
+     *
      * @return Uri self  Reference to this Uri for chaining.
      */
     public function append(Uri $uri)
@@ -88,6 +110,8 @@ class Uri
         $this->uri = $this->uri() . "/" . ltrim($uri->uri(), "/");
         return $this;
     }
+
+
 
     /**
      * Remove the basename part of uri if it is same as argument.
@@ -98,6 +122,7 @@ class Uri
      *  theUri->removeBasename("this.html"); // theUri->uri() == "http://dbwebb.se/about"
      *
      * @param  string $basename     The basename to remove.
+     *
      * @return Uri self      Reference to this Uri for chaining.
      */
     public function removeBasename($basename)
@@ -107,6 +132,8 @@ class Uri
             : $this->uri;
         return $this;
     }
+
+
 
     /**
      * Get the boxed uri as string without any trailing slash.
